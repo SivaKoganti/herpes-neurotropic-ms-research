@@ -1,4 +1,5 @@
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -54,6 +55,20 @@ class ClinVarAnalysisTests(unittest.TestCase):
         scores = clinvar.logistic_reactivation_model(df)
         self.assertIn("score_mode", scores.columns)
         self.assertTrue((scores["score_mode"] == "cross_validated").all())
+
+    def test_summary_artifact_matches_default_permutation_settings(self):
+        dataset = REPO_ROOT / "data" / "clinvar-ms-variants.csv"
+        df = clinvar.annotate_pathways(clinvar.load_clinvar_subset(dataset))
+        expected = clinvar.permutation_association_test(df, n_perm=500, rng_seed=7)
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir)
+            clinvar.run_analysis(dataset, output_dir)
+            summary = pd.read_csv(output_dir / "clinvar_association_summary.csv")
+            observed = float(
+                summary.loc[summary["metric"] == "permutation_p_value", "value"].iloc[0]
+            )
+            self.assertAlmostEqual(observed, expected)
 
 
 class SpinGlassModelTests(unittest.TestCase):

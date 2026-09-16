@@ -89,9 +89,10 @@ def pathway_enrichment(df: pd.DataFrame) -> pd.DataFrame:
 def logistic_reactivation_model(df: pd.DataFrame) -> pd.DataFrame:
     """Estimate genotype-linked reactivation risk using logistic regression."""
 
-    feature_cols = ["is_pathogenic", "viral_seropositive", "ms_association"]
-    pathway_dummies = pd.get_dummies(df["pathway"], prefix="pathway")
+    feature_cols = ["is_pathogenic", "ms_association"]
+    pathway_dummies = pd.get_dummies(df["pathway"], prefix="pathway", drop_first=True)
     design = pd.concat([df[feature_cols].astype(float), pathway_dummies.astype(float)], axis=1)
+    design = design.loc[:, design.nunique(dropna=False) > 1]
     target = df["reactivation"].astype(int)
 
     class_counts = target.value_counts()
@@ -99,7 +100,7 @@ def logistic_reactivation_model(df: pd.DataFrame) -> pd.DataFrame:
     if min_class >= 2:
         n_splits = min(5, min_class)
         cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=7)
-        model = LogisticRegression(max_iter=1000)
+        model = LogisticRegression(max_iter=1000, solver="liblinear")
         probabilities = cross_val_predict(
             model,
             design,
@@ -109,7 +110,7 @@ def logistic_reactivation_model(df: pd.DataFrame) -> pd.DataFrame:
         )[:, 1]
         score_mode = "cross_validated"
     else:
-        model = LogisticRegression(max_iter=1000)
+        model = LogisticRegression(max_iter=1000, solver="liblinear")
         model.fit(design, target)
         probabilities = model.predict_proba(design)[:, 1]
         score_mode = "in_sample_fallback"
@@ -138,6 +139,8 @@ def permutation_association_test(df: pd.DataFrame, n_perm: int = 500, rng_seed: 
     rng = np.random.default_rng(rng_seed)
     pathogenic_mask = df["is_pathogenic"].astype(bool).to_numpy()
     non_pathogenic_mask = ~pathogenic_mask
+    if pathogenic_mask.sum() == 0 or non_pathogenic_mask.sum() == 0:
+        raise ValueError("Permutation test requires both pathogenic and non-pathogenic groups.")
     observed = float(
         np.mean(df["reactivation"].to_numpy()[pathogenic_mask])
         - np.mean(df["reactivation"].to_numpy()[non_pathogenic_mask])
