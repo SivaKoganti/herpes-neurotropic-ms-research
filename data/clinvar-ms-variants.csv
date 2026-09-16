@@ -1,0 +1,17 @@
+variant_id,gene,clinical_significance,condition,ms_association,viral_seropositive,viral_persistence,reactivation
+CV-0001,HLA-DRB1,Pathogenic,Multiple sclerosis susceptibility,1,1,1,1
+CV-0002,HLA-DQA1,Likely pathogenic,Autoimmune demyelinating syndrome,1,1,1,1
+CV-0003,IL2RA,Pathogenic,Immune dysregulation,1,1,0,1
+CV-0004,IL7R,Likely pathogenic,Neuroinflammatory phenotype,1,1,1,0
+CV-0005,TLR3,Pathogenic,Viral encephalitis susceptibility,0,1,1,1
+CV-0006,TLR7,Pathogenic,Innate sensing deficiency,0,1,1,1
+CV-0007,IFIH1,Likely pathogenic,Interferonopathy,0,1,0,0
+CV-0008,IFNAR1,Pathogenic,Type I interferon signaling defect,0,1,1,1
+CV-0009,STAT1,Pathogenic,Chronic viral susceptibility,0,1,1,1
+CV-0010,CTLA4,Likely pathogenic,Immune checkpoint insufficiency,1,1,0,1
+CV-0011,TNFRSF1A,Uncertain significance,Inflammatory syndrome,1,1,1,0
+CV-0012,HLA-B,Pathogenic,Neuroimmune autoimmunity,1,1,1,1
+CV-0013,STAT2,Likely pathogenic,Viral persistence syndrome,0,1,1,0
+CV-0014,IRF7,Pathogenic,Interferon deficiency,0,1,1,1
+CV-0015,AIRE,Uncertain significance,Autoimmune predisposition,1,0,0,0
+CV-0016,MBP,Benign,Non-pathogenic myelin variant,0,1,1,0

@@ -1,5 +1,18 @@
 # References and Bibliography
 
+## Traceability keys for manuscript drafting
+
+The repository now includes a manuscript draft with claim-traceability placeholders. The keys below point to topic buckets already represented in this file and must be replaced with exact article citations before preprint posting or journal submission.
+
+| Key | Topic bucket in this repository | Current status |
+| --- | --- | --- |
+| REF-EBV-MS | Viral Epidemiology & MS Risk Association → Epstein-Barr Virus (EBV) | Placeholder only; add exact citation(s) before submission |
+| REF-HSV-MS | Viral Epidemiology & MS Risk Association → Herpes Simplex Virus-1 (HSV-1) | Placeholder only; add exact citation(s) before submission |
+| REF-HHV6-MS | Viral Epidemiology & MS Risk Association → Human Herpesvirus-6 (HHV-6) | Placeholder only; add exact citation(s) before submission |
+| REF-MIMICRY | Molecular Mimicry & Autoimmunity → Sequence Homology | Placeholder only; add exact citation(s) before submission |
+| REF-BBB | Viral Pathogenesis & Neurotropism → CNS Entry Mechanisms / BBB disruption | Placeholder only; add exact citation(s) before submission |
+| REF-RELAPSE | Clinical Evidence & Case Studies → MS Relapses & Viral Infection | Placeholder only; add exact citation(s) before submission |
+
 ## Viral Epidemiology & MS Risk Association
 
 ### Epstein-Barr Virus (EBV)
