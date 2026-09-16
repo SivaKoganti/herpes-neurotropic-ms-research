@@ -1,6 +1,6 @@
 # Manuscript Figures and Legends
 
-This file defines the proposed figure package for `/home/runner/work/herpes-neurotropic-ms-research/herpes-neurotropic-ms-research/MANUSCRIPT.md`.
+This file defines the proposed figure package for `MANUSCRIPT.md`.
 
 ## Figure 1. Conceptual overview of the frustrated viral-host landscape
 
