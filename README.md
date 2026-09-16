@@ -14,6 +14,8 @@ This repository contains a comprehensive deep review examining the potential rol
 
 ## Repository Structure
 
+### Current committed files
+
 ```
 ├── README.md                           # This file
 ├── MANUSCRIPT.md                       # Draft review + hypothesis manuscript
@@ -24,15 +26,21 @@ This repository contains a comprehensive deep review examining the potential rol
 │   ├── 04-autoimmunity-mechanisms.md  # Molecular mimicry, bystander activation
 │   ├── 05-ms-pathogenesis-links.md    # Connection to MS pathology
 │   └── 06-integrated-viral-host-systems-model.md # Multiscale synthesis & data architecture
+├── figures/
+│   └── manuscript-figures-and-legends.md # Manuscript figure package
+└── REFERENCES.md                       # Bibliography & citations
+```
+
+### Planned data and analysis assets
+
+```
 ├── data/                              # Planned literature/genomics assets
 │   ├── literature-database.csv        # Planned curated research articles
 │   └── genomic-data/                  # Planned viral genomes & protein alignments
 ├── analysis/                          # Planned analysis pipeline
 │   ├── molecular-mimicry-analysis.py  # Planned sequence homology studies
 │   └── coinfection-models.py          # Planned computational models
-├── figures/
-│   └── manuscript-figures-and-legends.md # Manuscript figure package
-└── REFERENCES.md                       # Bibliography & citations
+└── figures/mechanisms-diagrams.md      # Planned visual synthesis artifact
 ```
 
 ## Document Sections
