@@ -56,6 +56,27 @@ class ClinVarAnalysisTests(unittest.TestCase):
         self.assertIn("score_mode", scores.columns)
         self.assertTrue((scores["score_mode"] == "cross_validated").all())
 
+    def test_risk_scores_exercise_in_sample_fallback(self):
+        fallback_df = pd.DataFrame(
+            {
+                "variant_id": ["v1", "v2", "v3", "v4", "v5"],
+                "gene": ["HLA-DRB1", "TLR3", "STAT1", "IL2RA", "MBP"],
+                "clinical_significance": [
+                    "Pathogenic",
+                    "Pathogenic",
+                    "Likely pathogenic",
+                    "Uncertain significance",
+                    "Benign",
+                ],
+                "pathway": ["HLA", "TLR_PRR", "TYPE_I_IFN", "T_CELL_REGULATORS", "OTHER"],
+                "is_pathogenic": [True, True, True, False, False],
+                "ms_association": [1, 0, 0, 1, 0],
+                "reactivation": [1, 1, 1, 1, 0],
+            }
+        )
+        scores = clinvar.logistic_reactivation_model(fallback_df)
+        self.assertTrue((scores["score_mode"] == "in_sample_fallback").all())
+
     def test_summary_artifact_matches_default_permutation_settings(self):
         dataset = REPO_ROOT / "data" / "clinvar-ms-variants.csv"
         df = clinvar.annotate_pathways(clinvar.load_clinvar_subset(dataset))

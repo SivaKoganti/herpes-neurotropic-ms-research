@@ -59,7 +59,11 @@ def annotate_pathways(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def pathway_enrichment(df: pd.DataFrame) -> pd.DataFrame:
-    """Fisher exact enrichment of viral persistence by pathway membership."""
+    """Fisher exact enrichment of viral persistence by pathway membership.
+
+    Returns persistence contingency counts, odds ratio/p-value, and pathway-level
+    pathogenic/reactivation fractions for interpretation.
+    """
 
     rows = []
     for pathway in sorted(df["pathway"].unique()):
@@ -95,25 +99,29 @@ def logistic_reactivation_model(df: pd.DataFrame) -> pd.DataFrame:
     design = design.loc[:, design.nunique(dropna=False) > 1]
     target = df["reactivation"].astype(int)
 
-    class_counts = target.value_counts()
-    min_class = int(class_counts.min()) if not class_counts.empty else 0
-    if min_class >= 2:
-        n_splits = min(5, min_class)
-        cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=7)
-        model = LogisticRegression(max_iter=1000, solver="liblinear")
-        probabilities = cross_val_predict(
-            model,
-            design,
-            target,
-            cv=cv,
-            method="predict_proba",
-        )[:, 1]
-        score_mode = "cross_validated"
+    if target.nunique() < 2:
+        probabilities = np.full(len(target), float(target.mean()))
+        score_mode = "constant_single_class"
     else:
-        model = LogisticRegression(max_iter=1000, solver="liblinear")
-        model.fit(design, target)
-        probabilities = model.predict_proba(design)[:, 1]
-        score_mode = "in_sample_fallback"
+        class_counts = target.value_counts()
+        min_class = int(class_counts.min()) if not class_counts.empty else 0
+        if min_class >= 2:
+            n_splits = min(5, min_class)
+            cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=7)
+            model = LogisticRegression(max_iter=1000, solver="liblinear")
+            probabilities = cross_val_predict(
+                model,
+                design,
+                target,
+                cv=cv,
+                method="predict_proba",
+            )[:, 1]
+            score_mode = "cross_validated"
+        else:
+            model = LogisticRegression(max_iter=1000, solver="liblinear")
+            model.fit(design, target)
+            probabilities = model.predict_proba(design)[:, 1]
+            score_mode = "in_sample_fallback"
 
     score_df = df[
         ["variant_id", "gene", "clinical_significance", "pathway", "reactivation"]

@@ -41,9 +41,17 @@ def _default_couplings(viruses: Iterable[str]) -> pd.DataFrame:
     if n <= base_matrix.shape[0]:
         matrix = base_matrix[:n, :n]
     else:
+        base_n = base_matrix.shape[0]
+        matrix = np.zeros((n, n), dtype=float)
+        matrix[:base_n, :base_n] = base_matrix
         rng = np.random.default_rng(11)
-        random_couplings = rng.uniform(-0.25, 0.4, size=(n, n))
-        matrix = (random_couplings + random_couplings.T) / 2.0
+        extension = rng.uniform(-0.25, 0.4, size=(n - base_n, n - base_n))
+        extension = (extension + extension.T) / 2.0
+        matrix[base_n:, base_n:] = extension
+
+        bridge = rng.uniform(-0.25, 0.4, size=(base_n, n - base_n))
+        matrix[:base_n, base_n:] = bridge
+        matrix[base_n:, :base_n] = bridge.T
         np.fill_diagonal(matrix, 0.0)
     return pd.DataFrame(matrix, index=v, columns=v)
 
