@@ -83,7 +83,7 @@ This repository contains a comprehensive deep review examining the potential rol
 ## Manuscript Assets
 
 - `MANUSCRIPT.md` contains a manuscript-style review and hypothesis draft built from the chapter set
-- `REFERENCES.md` contains the numbered citation base grouped by topic
+- `REFERENCES.md` contains the stable keyed citation base grouped by topic
 - `figures/manuscript-figures-and-legends.md` contains the proposed figure list and interpretive legends
 
 ## Contributing
