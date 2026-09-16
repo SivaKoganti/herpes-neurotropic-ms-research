@@ -13,6 +13,7 @@ def generate_pdf_bytes(request: ReportRequest) -> bytes:
         f"Risk Score: {request.risk_result.risk_score}",
         f"Severity: {request.risk_result.severity}",
         f"Credible Interval: {request.risk_result.credible_interval}",
+        "Research/decision-support output only; not for clinical diagnosis.",
     ]
     if request.notes:
         wrapped_notes = textwrap.wrap(request.notes, width=90) or [request.notes]

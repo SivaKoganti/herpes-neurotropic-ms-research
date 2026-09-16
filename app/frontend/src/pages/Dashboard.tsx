@@ -88,6 +88,7 @@ export default function Dashboard() {
           <p>See docs/04-autoimmunity-mechanisms.md for host immune interpretation.</p>
         </details>
         <p>Patient inputs are anonymized in exported artifacts and are not persisted without explicit consent.</p>
+        <p>This dashboard is for research/decision-support use and does not provide clinical diagnosis.</p>
       </section>
     </div>
   );

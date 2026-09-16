@@ -57,6 +57,7 @@ def test_generate_report_returns_pdf() -> None:
     assert resp.status_code == 200
     assert resp.headers["content-type"].startswith("application/pdf")
     assert resp.content.startswith(b"%PDF")
+    assert b"not for clinical diagnosis" in resp.content
 
 
 def test_generate_report_handles_escaped_characters_and_long_notes() -> None:
