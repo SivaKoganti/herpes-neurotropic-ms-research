@@ -1,0 +1,6 @@
+pathway,persistent_in_pathway,non_persistent_in_pathway,persistent_outside_pathway,non_persistent_outside_pathway,pathway_pathogenic_fraction,pathway_reactivation_fraction,odds_ratio,p_value
+TYPE_I_IFN,4,0,8,4,1.0,0.75,inf,0.2719780219780219
+HLA,3,0,9,4,1.0,1.0,inf,0.3928571428571428
+TLR_PRR,2,1,10,3,1.0,0.6666666666666666,0.6,0.8642857142857143
+OTHER,1,1,11,3,0.0,0.0,0.2727272727272727,0.95
+T_CELL_REGULATORS,2,2,10,2,0.75,0.5,0.2,0.9730769230769231

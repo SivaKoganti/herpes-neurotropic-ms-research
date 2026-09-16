@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d1" for="edge" attr.name="weight" attr.type="double" />
+  <key id="d0" for="node" attr.name="node_type" attr.type="string" />
+  <graph edgedefault="undirected">
+    <node id="viral_persistence">
+      <data key="d0">outcome</data>
+    </node>
+    <node id="reactivation">
+      <data key="d0">outcome</data>
+    </node>
+    <node id="ms_association">
+      <data key="d0">outcome</data>
+    </node>
+    <node id="HLA">
+      <data key="d0">pathway</data>
+    </node>
+    <node id="OTHER">
+      <data key="d0">pathway</data>
+    </node>
+    <node id="TLR_PRR">
+      <data key="d0">pathway</data>
+    </node>
+    <node id="TYPE_I_IFN">
+      <data key="d0">pathway</data>
+    </node>
+    <node id="T_CELL_REGULATORS">
+      <data key="d0">pathway</data>
+    </node>
+    <node id="AIRE">
+      <data key="d0">gene</data>
+    </node>
+    <node id="CTLA4">
+      <data key="d0">gene</data>
+    </node>
+    <node id="HLA-B">
+      <data key="d0">gene</data>
+    </node>
+    <node id="HLA-DQA1">
+      <data key="d0">gene</data>
+    </node>
+    <node id="HLA-DRB1">
+      <data key="d0">gene</data>
+    </node>
+    <node id="IFIH1">
+      <data key="d0">gene</data>
+    </node>
+    <node id="IFNAR1">
+      <data key="d0">gene</data>
+    </node>
+    <node id="IL2RA">
+      <data key="d0">gene</data>
+    </node>
+    <node id="IL7R">
+      <data key="d0">gene</data>
+    </node>
+    <node id="IRF7">
+      <data key="d0">gene</data>
+    </node>
+    <node id="MBP">
+      <data key="d0">gene</data>
+    </node>
+    <node id="STAT1">
+      <data key="d0">gene</data>
+    </node>
+    <node id="STAT2">
+      <data key="d0">gene</data>
+    </node>
+    <node id="TLR3">
+      <data key="d0">gene</data>
+    </node>
+    <node id="TLR7">
+      <data key="d0">gene</data>
+    </node>
+    <node id="TNFRSF1A">
+      <data key="d0">gene</data>
+    </node>
+    <edge source="viral_persistence" target="HLA">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="viral_persistence" target="OTHER">
+      <data key="d1">0.5</data>
+    </edge>
+    <edge source="viral_persistence" target="TLR_PRR">
+      <data key="d1">0.6666666666666666</data>
+    </edge>
+    <edge source="viral_persistence" target="TYPE_I_IFN">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="viral_persistence" target="T_CELL_REGULATORS">
+      <data key="d1">0.5</data>
+    </edge>
+    <edge source="reactivation" target="HLA">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="reactivation" target="OTHER">
+      <data key="d1">0.0</data>
+    </edge>
+    <edge source="reactivation" target="TLR_PRR">
+      <data key="d1">0.6666666666666666</data>
+    </edge>
+    <edge source="reactivation" target="TYPE_I_IFN">
+      <data key="d1">0.75</data>
+    </edge>
+    <edge source="reactivation" target="T_CELL_REGULATORS">
+      <data key="d1">0.5</data>
+    </edge>
+    <edge source="ms_association" target="HLA">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="ms_association" target="OTHER">
+      <data key="d1">0.5</data>
+    </edge>
+    <edge source="ms_association" target="TLR_PRR">
+      <data key="d1">0.0</data>
+    </edge>
+    <edge source="ms_association" target="TYPE_I_IFN">
+      <data key="d1">0.0</data>
+    </edge>
+    <edge source="ms_association" target="T_CELL_REGULATORS">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="HLA" target="HLA-B">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="HLA" target="HLA-DQA1">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="HLA" target="HLA-DRB1">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="OTHER" target="AIRE">
+      <data key="d1">0.0</data>
+    </edge>
+    <edge source="OTHER" target="MBP">
+      <data key="d1">0.0</data>
+    </edge>
+    <edge source="TLR_PRR" target="IFIH1">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="TLR_PRR" target="TLR3">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="TLR_PRR" target="TLR7">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="TYPE_I_IFN" target="IFNAR1">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="TYPE_I_IFN" target="IRF7">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="TYPE_I_IFN" target="STAT1">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="TYPE_I_IFN" target="STAT2">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="T_CELL_REGULATORS" target="CTLA4">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="T_CELL_REGULATORS" target="IL2RA">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="T_CELL_REGULATORS" target="IL7R">
+      <data key="d1">1.0</data>
+    </edge>
+    <edge source="T_CELL_REGULATORS" target="TNFRSF1A">
+      <data key="d1">0.0</data>
+    </edge>
+  </graph>
+</graphml>
