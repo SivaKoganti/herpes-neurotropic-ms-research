@@ -180,6 +180,32 @@ Mechanistic pathways linking viral infection to loss of self-tolerance and myeli
 - Viral susceptibility genes
 - Gene-environment interactions
 
+## ClinVar-Host-Viral Susceptibility Integration
+
+### Rationale
+- Host genetic background can jointly influence MS predisposition and viral persistence/reactivation dynamics.
+- ClinVar clinical significance labels provide curated variant pathogenicity context for interpreting epidemiological viral associations.
+
+### Analysis Workflow (Implemented in `analysis/clinvar_viral_susceptibility_analysis.py`)
+- Parse filtered ClinVar subset (`data/clinvar-ms-variants.csv`) containing immune and MS-relevant loci.
+- Stratify variants into functional groups:
+  - HLA adaptive immunity genes
+  - TLR/PRR innate sensing genes
+  - Type I IFN pathway genes
+  - T cell differentiation/regulatory genes
+- Cross-reference with viral outcome labels (seropositivity, persistence, reactivation).
+- Association testing:
+  - Fisher's exact tests for pathway enrichment among persistence-associated pathogenic variants
+  - Logistic regression for reactivation risk prediction
+  - Permutation testing for robustness of pathogenic burden effects
+- Build host-genetic-viral outcome network in GraphML format for downstream visualization.
+
+### Generated Outputs
+- `figures/clinvar_pathway_enrichment.csv`
+- `figures/host_genetic_predisposition_scores.csv`
+- `figures/clinvar_association_summary.csv`
+- `figures/host_genetic_viral_network.graphml`
+
 ## Tissue-Specific Autoimmunity
 
 ### CNS Homing
