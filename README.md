@@ -40,8 +40,11 @@ This repository contains a comprehensive deep review examining the potential rol
 ├── analysis/                          # Planned analysis pipeline
 │   ├── molecular-mimicry-analysis.py  # Planned sequence homology studies
 │   └── coinfection-models.py          # Planned computational models
-└── figures/mechanisms-diagrams.md      # Planned visual synthesis artifact
 ```
+
+### Planned additional figure asset
+
+- `figures/mechanisms-diagrams.md` will remain the planned visual synthesis artifact for future diagram development
 
 ## Document Sections
 
