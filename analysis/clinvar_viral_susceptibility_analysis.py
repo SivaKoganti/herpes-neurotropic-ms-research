@@ -107,18 +107,26 @@ def logistic_reactivation_model(df: pd.DataFrame) -> pd.DataFrame:
             cv=cv,
             method="predict_proba",
         )[:, 1]
+        score_mode = "cross_validated"
     else:
         model = LogisticRegression(max_iter=1000)
         model.fit(design, target)
         probabilities = model.predict_proba(design)[:, 1]
+        score_mode = "in_sample_fallback"
 
     score_df = df[
         ["variant_id", "gene", "clinical_significance", "pathway", "reactivation"]
     ].copy()
     score_df["predicted_reactivation_risk"] = probabilities
     score_df["host_genetic_predisposition_score"] = (
-        probabilities * (1.0 + score_df["reactivation"].astype(float))
+        probabilities
+        * (
+            1.0
+            + 0.5 * df["is_pathogenic"].astype(float)
+            + 0.25 * df["ms_association"].astype(float)
+        )
     )
+    score_df["score_mode"] = score_mode
     return score_df.sort_values(
         "host_genetic_predisposition_score", ascending=False
     ).reset_index(drop=True)
@@ -128,12 +136,17 @@ def permutation_association_test(df: pd.DataFrame, n_perm: int = 500, rng_seed: 
     """Permutation p-value for pathogenic burden association with reactivation."""
 
     rng = np.random.default_rng(rng_seed)
-    observed = float(df.loc[df["is_pathogenic"], "reactivation"].mean() - df.loc[~df["is_pathogenic"], "reactivation"].mean())
+    pathogenic_mask = df["is_pathogenic"].astype(bool).to_numpy()
+    non_pathogenic_mask = ~pathogenic_mask
+    observed = float(
+        np.mean(df["reactivation"].to_numpy()[pathogenic_mask])
+        - np.mean(df["reactivation"].to_numpy()[non_pathogenic_mask])
+    )
     count = 0
     for _ in range(n_perm):
         perm = df["reactivation"].sample(frac=1.0, replace=False, random_state=int(rng.integers(0, 1_000_000))).to_numpy()
-        perm_diff = float(np.mean(perm[df["is_pathogenic"].to_numpy()]) - np.mean(perm[~df["is_pathogenic"].to_numpy()]))
-        if perm_diff >= observed:
+        perm_diff = float(np.mean(perm[pathogenic_mask]) - np.mean(perm[non_pathogenic_mask]))
+        if abs(perm_diff) >= abs(observed):
             count += 1
     return (count + 1) / (n_perm + 1)
 

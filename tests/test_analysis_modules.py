@@ -3,6 +3,7 @@ import unittest
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(REPO_ROOT / "analysis"))
@@ -30,6 +31,29 @@ class ClinVarAnalysisTests(unittest.TestCase):
         self.assertLessEqual(p_value_a, 1.0)
         self.assertAlmostEqual(p_value_a, 0.04477611940298507)
         self.assertAlmostEqual(p_value_a, p_value_b)
+
+    def test_permutation_association_supports_negative_effect(self):
+        negative_effect = np.rec.fromrecords(
+            [
+                (True, 0),
+                (True, 0),
+                (True, 0),
+                (False, 1),
+                (False, 1),
+                (False, 1),
+            ],
+            names=["is_pathogenic", "reactivation"],
+        )
+        frame = pd.DataFrame(negative_effect)
+        p_value = clinvar.permutation_association_test(frame, n_perm=200, rng_seed=7)
+        self.assertAlmostEqual(p_value, 0.11442786069651742)
+
+    def test_risk_scores_report_scoring_mode(self):
+        dataset = REPO_ROOT / "data" / "clinvar-ms-variants.csv"
+        df = clinvar.annotate_pathways(clinvar.load_clinvar_subset(dataset))
+        scores = clinvar.logistic_reactivation_model(df)
+        self.assertIn("score_mode", scores.columns)
+        self.assertTrue((scores["score_mode"] == "cross_validated").all())
 
 
 class SpinGlassModelTests(unittest.TestCase):
