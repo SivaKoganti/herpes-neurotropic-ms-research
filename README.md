@@ -26,12 +26,21 @@ This repository contains a comprehensive deep review examining the potential rol
 │   └── 07-therapeutic-implications.md # Drug targets & interventions
 ├── data/
 │   ├── literature-database.csv        # Curated research articles
+│   ├── clinvar-ms-variants.csv        # Filtered ClinVar MS + immune variants
 │   └── genomic-data/                  # Viral genomes & protein alignments
 ├── analysis/
 │   ├── molecular-mimicry-analysis.py  # Sequence homology studies
-│   └── coinfection-models.py          # Computational models
+│   ├── coinfection-models.py          # Computational models
+│   ├── spin_glass_coinfection_model.py
+│   └── clinvar_viral_susceptibility_analysis.py
 ├── figures/
-│   └── mechanisms-diagrams.md         # Visualizations & schematics
+│   ├── mechanisms-diagrams.md         # Visualizations & schematics
+│   ├── spin_glass_phase_diagram.csv
+│   ├── spin_glass_frustration_landscape.csv
+│   ├── clinvar_pathway_enrichment.csv
+│   ├── host_genetic_predisposition_scores.csv
+│   ├── clinvar_association_summary.csv
+│   └── host_genetic_viral_network.graphml
 └── REFERENCES.md                       # Bibliography & citations
 ```
 
