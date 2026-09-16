@@ -1,3 +1,5 @@
+import re
+
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response
 
@@ -62,8 +64,9 @@ def scenario_simulate(payload: ScenarioCompareRequest) -> ScenarioResponse:
 @router.post("/generate-report")
 def generate_report(payload: ReportRequest) -> Response:
     pdf_bytes = generate_pdf_bytes(payload)
+    safe_patient_id = re.sub(r"[^A-Za-z0-9_-]+", "_", payload.patient_id).strip("_") or "patient"
     return Response(
         content=pdf_bytes,
         media_type="application/pdf",
-        headers={"Content-Disposition": f"attachment; filename={payload.patient_id}-ms-risk-report.pdf"},
+        headers={"Content-Disposition": f'attachment; filename="{safe_patient_id}-ms-risk-report.pdf"'},
     )

@@ -1,4 +1,4 @@
-from sqlalchemy import JSON, Column, Integer, String, create_engine
+from sqlalchemy import JSON, Column, Float, Integer, String, create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 from app.config import settings
@@ -15,7 +15,7 @@ class ClinVarVariant(Base):
     gene = Column(String(64), nullable=False, index=True)
     variant = Column(String(128), nullable=False, index=True)
     pathogenicity = Column(String(32), nullable=False)
-    effect_size = Column(String(32), nullable=False, default="1.0")
+    effect_size = Column(Float, nullable=False, default=1.0)
 
 
 class CachedRiskPrediction(Base):
@@ -32,7 +32,7 @@ class SeroprevalenceReference(Base):
     id = Column(Integer, primary_key=True)
     cohort = Column(String(64), nullable=False, index=True)
     virus = Column(String(32), nullable=False)
-    seropositivity_rate = Column(String(32), nullable=False)
+    seropositivity_rate = Column(Float, nullable=False)
 
 
 class SpinGlassLandscape(Base):

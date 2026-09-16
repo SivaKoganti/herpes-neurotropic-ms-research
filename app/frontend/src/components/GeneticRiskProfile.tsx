@@ -20,8 +20,8 @@ export default function GeneticRiskProfile({ variants, onChange, searchResults, 
         <button onClick={() => onSearch(gene)}>Search ClinVar</button>
       </div>
       <ul>
-        {searchResults.map((r, i) => (
-          <li key={i}>
+        {searchResults.map((r) => (
+          <li key={`${String(r.gene)}-${String(r.variant)}`}>
             {r.gene} {r.variant} ({r.pathogenicity})
             <button
               onClick={() =>

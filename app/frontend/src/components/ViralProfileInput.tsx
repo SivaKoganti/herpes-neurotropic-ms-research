@@ -23,7 +23,9 @@ export default function ViralProfileInput({ value, onChange }: Props) {
             />
             {virus.toUpperCase()}
           </label>
+          <label htmlFor={`titer-${virus}`}>{virus.toUpperCase()} titer</label>
           <select
+            id={`titer-${virus}`}
             value={String(value[`titer_${virus}`])}
             onChange={(e) => update(`titer_${virus}`, e.target.value)}
             title="Titer levels represent relative serologic signal intensity."

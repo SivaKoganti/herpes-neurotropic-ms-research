@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import GeneticRiskProfile from "../components/GeneticRiskProfile";
 import ReportGenerator from "../components/ReportGenerator";
@@ -33,14 +33,11 @@ export default function Dashboard() {
   const { state: spinState, fetchState } = useSpinGlassState();
   const { variants: searchResults, search } = useVariantQuery();
 
-  useEffect(() => {
-    void search("TLR2");
-    void (async () => {
-      const res = await fetch(apiUrl("/api/phase-diagram"));
-      const body = (await res.json()) as { points: Array<Record<string, string | number>> };
-      setPhasePoints(body.points);
-    })();
-  }, []);
+  const loadPhaseDiagram = async () => {
+    const res = await fetch(apiUrl("/api/phase-diagram"));
+    const body = (await res.json()) as { points: Array<Record<string, string | number>> };
+    setPhasePoints(body.points);
+  };
 
   const runRisk = async () => {
     const payload = { viral_profile: viral, variants };
@@ -69,6 +66,7 @@ export default function Dashboard() {
       <RiskVisualization data={risk} />
       <section className="card">
         <h3>Phase Diagram Explorer</h3>
+        <button onClick={loadPhaseDiagram}>Load phase diagram</button>
         <p>Total states: {phasePoints.length}</p>
         <p>Stable: {phasePoints.filter((p) => p.state === "stable").length}, Metastable: {phasePoints.filter((p) => p.state === "metastable").length}</p>
       </section>

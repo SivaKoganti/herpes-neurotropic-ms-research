@@ -4,9 +4,9 @@ services:
   postgres:
     image: postgres:16
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: msrisk
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-msrisk}
     ports:
       - "5432:5432"
     volumes:
@@ -20,7 +20,7 @@ services:
   backend:
     build: ./app/backend
     environment:
-      DATABASE_URL: postgresql+psycopg://postgres@postgres:5432/msrisk
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-msrisk}
       REDIS_URL: redis://redis:6379/0
     ports:
       - "8000:8000"
@@ -35,7 +35,7 @@ services:
     volumes:
       - ./app/frontend:/app
     environment:
-      VITE_API_BASE_URL: http://backend:8000
+      VITE_API_BASE_URL: http://localhost:8000
     ports:
       - "5173:5173"
     depends_on:

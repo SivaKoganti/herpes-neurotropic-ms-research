@@ -4,6 +4,8 @@ import { apiUrl } from "../api";
 type Props = { risk: RiskResponse | null };
 
 export default function ReportGenerator({ risk }: Props) {
+  const csvEscape = (value: string | number) => `"${String(value).replace(/"/g, '""')}"`;
+
   const generate = async () => {
     if (!risk) return;
     const resp = await fetch(apiUrl("/api/generate-report"), {
@@ -40,8 +42,10 @@ export default function ReportGenerator({ risk }: Props) {
       <button
         onClick={() => {
           if (!risk) return;
-          const rows = Object.entries(risk.contributions).map(([k, v]) => `${k},${v}`).join("\n");
-          const csv = `metric,value\nrisk_score,${risk.risk_score}\nseverity,${risk.severity}\n${rows}`;
+          const rows = Object.entries(risk.contributions)
+            .map(([k, v]) => `${csvEscape(k)},${csvEscape(v)}`)
+            .join("\n");
+          const csv = `metric,value\n${csvEscape("risk_score")},${csvEscape(risk.risk_score)}\n${csvEscape("severity")},${csvEscape(risk.severity)}\n${rows}`;
           const data = `data:text/csv;charset=utf-8,${encodeURIComponent(csv)}`;
           const a = document.createElement("a");
           a.href = data;

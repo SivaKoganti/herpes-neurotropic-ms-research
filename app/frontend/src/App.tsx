@@ -11,7 +11,7 @@ export default function App() {
   const [dark, setDark] = useState(true);
 
   return (
-    <main className="app" style={{ background: dark ? "#111" : "#fafafa", color: dark ? "#f5f5f5" : "#111" }}>
+    <main className={`app ${dark ? "theme-dark" : "theme-light"}`}>
       <div className="row">
         <button onClick={() => setPage("dashboard")}>Dashboard</button>
         <button onClick={() => setPage("docs")}>Documentation</button>

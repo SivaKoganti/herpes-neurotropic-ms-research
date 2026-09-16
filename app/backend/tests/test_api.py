@@ -57,3 +57,26 @@ def test_generate_report_returns_pdf() -> None:
     assert resp.status_code == 200
     assert resp.headers["content-type"].startswith("application/pdf")
     assert resp.content.startswith(b"%PDF")
+
+
+def test_generate_report_handles_escaped_characters_and_long_notes() -> None:
+    payload = {
+        "patient_id": "PAT(002)\\X",
+        "risk_result": {
+            "risk_score": 62.7,
+            "severity": "high",
+            "credible_interval": [51.1, 74.0],
+            "contributions": {
+                "coinfection_pattern": 11.2,
+                "genetic_variants": 14.4,
+                "immune_frustration": 12.0,
+                "interaction": 9.3,
+            },
+        },
+        "notes": "Follow-up recommended. " * 40,
+    }
+    resp = client.post("/api/generate-report", json=payload)
+    assert resp.status_code == 200
+    assert b"%PDF-1.4" in resp.content
+    assert b"startxref" in resp.content
+    assert 'filename="PAT_002_X-ms-risk-report.pdf"' in resp.headers["content-disposition"]
