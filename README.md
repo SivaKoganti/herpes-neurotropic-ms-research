@@ -16,6 +16,10 @@ This repository contains a comprehensive deep review examining the potential rol
 
 ```
 ├── README.md                           # This file
+├── app/
+│   ├── README.md                       # Interactive web app setup
+│   ├── frontend/                       # React dashboard
+│   └── backend/                        # FastAPI risk API
 ├── docs/
 │   ├── 01-viral-epidemiology.md       # Epidemiological evidence
 │   ├── 02-viral-pathogenesis.md       # Mechanisms of neurotropism
@@ -43,6 +47,18 @@ This repository contains a comprehensive deep review examining the potential rol
 │   └── host_genetic_viral_network.graphml
 └── REFERENCES.md                       # Bibliography & citations
 ```
+
+## Interactive MS Risk Web App
+
+An interactive risk scoring web application is available under `app/` with:
+
+- Viral profile inputs (HSV-1, HHV-6, EBV, CMV) and titer levels
+- ClinVar variant search and risk allele accumulation
+- Real-time risk score, credible interval, and contribution radar plot
+- Spin-glass coinfection state and phase-diagram summary
+- Scenario simulation and PDF/JSON/CSV export
+
+See `app/README.md` for local setup, Docker usage, and API documentation.
 
 ## Document Sections
 
