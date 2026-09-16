@@ -16,24 +16,60 @@ This repository contains a comprehensive deep review examining the potential rol
 
 ```
 ├── README.md                           # This file
+├── app/
+│   ├── README.md                       # Interactive web app setup
+│   ├── frontend/                       # React dashboard
+│   └── backend/                        # FastAPI risk API
 ├── docs/
 │   ├── 01-viral-epidemiology.md       # Epidemiological evidence
 │   ├── 02-viral-pathogenesis.md       # Mechanisms of neurotropism
 │   ├── 03-coinfection-dynamics.md     # Viral interactions & synergy
 │   ├── 04-autoimmunity-mechanisms.md  # Molecular mimicry, bystander activation
-│   ├── 05-ms-pathogenesis-links.md    # Connection to MS pathology
-│   ├── 06-clinical-evidence.md        # Case studies & clinical data
-│   └── 07-therapeutic-implications.md # Drug targets & interventions
+│   └── 05-ms-pathogenesis-links.md    # Connection to MS pathology
 ├── data/
 │   ├── literature-database.csv        # Curated research articles
+│   ├── clinvar-ms-variants.csv        # Filtered ClinVar MS + immune variants
 │   └── genomic-data/                  # Viral genomes & protein alignments
 ├── analysis/
-│   ├── molecular-mimicry-analysis.py  # Sequence homology studies
-│   └── coinfection-models.py          # Computational models
+│   ├── spin_glass_coinfection_model.py # Spin glass CNS coinfection dynamics simulation
+│   └── clinvar_viral_susceptibility_analysis.py # ClinVar host-genetic viral risk analysis
 ├── figures/
-│   └── mechanisms-diagrams.md         # Visualizations & schematics
+│   ├── spin_glass_phase_diagram.csv
+│   ├── spin_glass_frustration_landscape.csv
+│   ├── clinvar_pathway_enrichment.csv
+│   ├── host_genetic_predisposition_scores.csv
+│   ├── clinvar_association_summary.csv
+│   └── host_genetic_viral_network.graphml
 └── REFERENCES.md                       # Bibliography & citations
 ```
+
+## Reproducible local pipeline
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+PYTHONPATH=app/backend python -m pytest -q
+python analysis/spin_glass_coinfection_model.py
+python analysis/clinvar_viral_susceptibility_analysis.py
+cd app/frontend && npm ci && npm run build && cd ../..
+```
+
+The analysis outputs in `figures/` are deterministic with fixed random seeds and should regenerate without diffs.
+
+## Interactive MS Risk Web App
+
+An interactive risk scoring web application is available under `app/` with:
+
+- Viral profile inputs (HSV-1, HHV-6, EBV, CMV) and titer levels
+- ClinVar variant search and risk allele accumulation
+- Real-time risk score, credible interval, and contribution radar plot
+- Spin-glass coinfection state and phase-diagram summary
+- Scenario simulation and PDF/JSON/CSV export
+
+See `app/README.md` for local setup, Docker usage, and API documentation.
+
+> **Safety framing:** All model outputs are research/decision-support artifacts and are **not** clinical diagnosis.
 
 ## Document Sections
 
@@ -65,18 +101,6 @@ This repository contains a comprehensive deep review examining the potential rol
 - BBB breakdown
 - T cell infiltration
 - Oligodendrocyte dysfunction
-
-### 6. Clinical Evidence
-- Temporal relationships between infection and MS onset
-- Viral reactivation during relapses
-- CSF viral detection studies
-- Neuroimmunological markers
-
-### 7. Therapeutic Implications
-- Antiviral drug candidates
-- Immunomodulatory approaches
-- Vaccine strategies
-- Future research directions
 
 ## Contributing
 

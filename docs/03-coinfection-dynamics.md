@@ -90,6 +90,26 @@ Interactions between multiple neurotropic viruses and their implications for MS 
 - PRR pathway modulation
 - Metabolic reprogramming
 
+## Spin Glass Interpretation of Coinfection Dynamics
+
+### Why Spin Glass Framing Fits CNS Coinfection
+- Coinfections produce competing local optima (viral latency, clearance, replication) rather than a single linear trajectory.
+- Simultaneous pressures from immune surveillance, viral evasion, and tissue-specific permissiveness generate frustrated interaction networks.
+- Compartment-specific states in grey matter, white matter lesions, and CSF can be represented as lattice sites with temperature-like stochasticity.
+
+### Model Components (Implemented in `analysis/spin_glass_coinfection_model.py`)
+- Spin state per virus: `s_i ∈ {-1, 0, +1}` for latent, cleared, and replicating states.
+- Coupling matrix `J_ij`: captures interference, synergy, and immune competition between co-circulating viruses.
+- Hamiltonian:
+  - `H = -Σ_ij J_ij s_i s_j - Σ_i h_i s_i + immune_pressure_term`
+- Frustration index: proportion of unsatisfied pairwise interactions under the current state.
+- Replica order parameter `q`: Edwards-Anderson-style metric of disorder and metastability.
+
+### Coinfection Outputs
+- Phase diagram (`figures/spin_glass_phase_diagram.csv`) spanning temperature vs. viral burden shift.
+- Frustration landscape (`figures/spin_glass_frustration_landscape.csv`) with disorder and reactivation-cascade risk metrics.
+- Derived reactivation cascade risk: `mean_replication × (1 + frustration_index)`.
+
 ## Immune Response in Coinfection
 
 ### T Cell Responses
