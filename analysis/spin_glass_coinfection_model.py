@@ -29,7 +29,7 @@ def _default_couplings(viruses: Iterable[str]) -> pd.DataFrame:
     """Create a symmetric coupling matrix (J_ij) for viral interactions."""
 
     v = list(viruses)
-    matrix = np.array(
+    base_matrix = np.array(
         [
             [0.0, 0.4, 0.2, -0.2],
             [0.4, 0.0, 0.3, 0.1],
@@ -37,7 +37,15 @@ def _default_couplings(viruses: Iterable[str]) -> pd.DataFrame:
             [-0.2, 0.1, -0.1, 0.0],
         ]
     )
-    return pd.DataFrame(matrix[: len(v), : len(v)], index=v, columns=v)
+    n = len(v)
+    if n <= base_matrix.shape[0]:
+        matrix = base_matrix[:n, :n]
+    else:
+        rng = np.random.default_rng(11)
+        random_couplings = rng.uniform(-0.25, 0.4, size=(n, n))
+        matrix = (random_couplings + random_couplings.T) / 2.0
+        np.fill_diagonal(matrix, 0.0)
+    return pd.DataFrame(matrix, index=v, columns=v)
 
 
 def _compartment_fields(compartments: Iterable[str], burden_shift: float = 0.0) -> Dict[str, float]:

@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import fisher_exact
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import StratifiedKFold, cross_val_predict
 
 GENE_SETS: Dict[str, List[str]] = {
     "HLA": ["HLA-DRB1", "HLA-DQA1", "HLA-A", "HLA-B"],
@@ -36,9 +37,14 @@ def load_clinvar_subset(path: Path) -> pd.DataFrame:
     missing = required.difference(df.columns)
     if missing:
         raise ValueError(f"Missing required ClinVar columns: {sorted(missing)}")
-    df["is_pathogenic"] = df["clinical_significance"].str.contains(
-        "Pathogenic", case=False, na=False
+    normalized = (
+        df["clinical_significance"]
+        .fillna("")
+        .str.lower()
+        .str.replace("-", " ", regex=False)
+        .str.strip()
     )
+    df["is_pathogenic"] = normalized.isin({"pathogenic", "likely pathogenic"})
     return df
 
 
@@ -88,9 +94,23 @@ def logistic_reactivation_model(df: pd.DataFrame) -> pd.DataFrame:
     design = pd.concat([df[feature_cols].astype(float), pathway_dummies.astype(float)], axis=1)
     target = df["reactivation"].astype(int)
 
-    model = LogisticRegression(max_iter=1000)
-    model.fit(design, target)
-    probabilities = model.predict_proba(design)[:, 1]
+    class_counts = target.value_counts()
+    min_class = int(class_counts.min()) if not class_counts.empty else 0
+    if min_class >= 2:
+        n_splits = min(5, min_class)
+        cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=7)
+        model = LogisticRegression(max_iter=1000)
+        probabilities = cross_val_predict(
+            model,
+            design,
+            target,
+            cv=cv,
+            method="predict_proba",
+        )[:, 1]
+    else:
+        model = LogisticRegression(max_iter=1000)
+        model.fit(design, target)
+        probabilities = model.predict_proba(design)[:, 1]
 
     score_df = df[
         ["variant_id", "gene", "clinical_significance", "pathway", "reactivation"]
