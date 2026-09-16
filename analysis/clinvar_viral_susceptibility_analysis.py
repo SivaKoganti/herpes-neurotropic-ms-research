@@ -21,6 +21,16 @@ GENE_SETS: Dict[str, List[str]] = {
 }
 
 
+def _normalize_binary_column(df: pd.DataFrame, column: str) -> pd.Series:
+    values = pd.to_numeric(df[column], errors="coerce")
+    if values.isna().any():
+        raise ValueError(f"Column '{column}' contains non-numeric or missing values.")
+    invalid = sorted(set(values.astype(int).unique()) - {0, 1})
+    if invalid:
+        raise ValueError(f"Column '{column}' must be binary 0/1 values. Found: {invalid}")
+    return values.astype(int)
+
+
 def load_clinvar_subset(path: Path) -> pd.DataFrame:
     """Load filtered ClinVar subset used in host susceptibility analysis."""
 
@@ -45,6 +55,8 @@ def load_clinvar_subset(path: Path) -> pd.DataFrame:
         .str.strip()
     )
     df["is_pathogenic"] = normalized.isin({"pathogenic", "likely pathogenic"})
+    for binary_col in ("ms_association", "viral_seropositive", "viral_persistence", "reactivation"):
+        df[binary_col] = _normalize_binary_column(df, binary_col)
     return df
 
 
@@ -66,13 +78,15 @@ def pathway_enrichment(df: pd.DataFrame) -> pd.DataFrame:
     """
 
     rows = []
+    persistent_values = _normalize_binary_column(df, "viral_persistence")
     for pathway in sorted(df["pathway"].unique()):
         in_pathway = df["pathway"] == pathway
-        persistent = df["viral_persistence"] == 1
+        persistent = persistent_values == 1
+        non_persistent = persistent_values == 0
         a = int((in_pathway & persistent).sum())
-        b = int((in_pathway & (~persistent)).sum())
+        b = int((in_pathway & non_persistent).sum())
         c = int(((~in_pathway) & persistent).sum())
-        d = int(((~in_pathway) & (~persistent)).sum())
+        d = int(((~in_pathway) & non_persistent).sum())
         odds_ratio, p_value = fisher_exact([[a, b], [c, d]], alternative="greater")
         rows.append(
             {
@@ -145,17 +159,18 @@ def permutation_association_test(df: pd.DataFrame, n_perm: int = 500, rng_seed: 
     """Permutation p-value for pathogenic burden association with reactivation."""
 
     rng = np.random.default_rng(rng_seed)
+    reactivation_values = _normalize_binary_column(df, "reactivation").to_numpy()
     pathogenic_mask = df["is_pathogenic"].astype(bool).to_numpy()
     non_pathogenic_mask = ~pathogenic_mask
     if pathogenic_mask.sum() == 0 or non_pathogenic_mask.sum() == 0:
         raise ValueError("Permutation test requires both pathogenic and non-pathogenic groups.")
     observed = float(
-        np.mean(df["reactivation"].to_numpy()[pathogenic_mask])
-        - np.mean(df["reactivation"].to_numpy()[non_pathogenic_mask])
+        np.mean(reactivation_values[pathogenic_mask])
+        - np.mean(reactivation_values[non_pathogenic_mask])
     )
     count = 0
     for _ in range(n_perm):
-        perm = rng.permutation(df["reactivation"].to_numpy())
+        perm = rng.permutation(reactivation_values)
         perm_diff = float(np.mean(perm[pathogenic_mask]) - np.mean(perm[non_pathogenic_mask]))
         if abs(perm_diff) >= abs(observed):
             count += 1

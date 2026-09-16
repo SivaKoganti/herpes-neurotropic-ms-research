@@ -84,6 +84,20 @@ def hamiltonian(
     return pair_term + field_term + immune_term
 
 
+def _site_energy(
+    site_spins: np.ndarray,
+    couplings: np.ndarray,
+    field: float,
+    immune_pressure: float,
+) -> float:
+    """Single-site contribution to system energy."""
+
+    pair_term = -0.5 * float(site_spins @ couplings @ site_spins)
+    field_term = -float(field * np.sum(site_spins))
+    immune_term = immune_pressure * float(np.sum(np.maximum(site_spins, 0)))
+    return pair_term + field_term + immune_term
+
+
 def _frustration_index(spins: np.ndarray, couplings: np.ndarray) -> float:
     """Fraction of non-zero pairwise interactions that are energetically unsatisfied."""
 
@@ -135,10 +149,14 @@ def metropolis_simulation(
         proposal_choices = SPIN_STATES[SPIN_STATES != current_state]
         proposal = int(rng.choice(proposal_choices))
 
-        current_energy = hamiltonian(spins, couplings, fields, config.immune_pressure)
+        current_site_energy = _site_energy(
+            spins[site], couplings, fields[site], config.immune_pressure
+        )
         spins[site, virus] = proposal
-        proposed_energy = hamiltonian(spins, couplings, fields, config.immune_pressure)
-        delta = proposed_energy - current_energy
+        proposed_site_energy = _site_energy(
+            spins[site], couplings, fields[site], config.immune_pressure
+        )
+        delta = proposed_site_energy - current_site_energy
         if delta > 0 and rng.random() > np.exp(-delta / max(temperature, 1e-6)):
             spins[site, virus] = current_state
 
