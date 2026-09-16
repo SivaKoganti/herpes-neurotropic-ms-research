@@ -22,16 +22,15 @@ This repository contains a comprehensive deep review examining the potential rol
 │   ├── 03-coinfection-dynamics.md     # Viral interactions & synergy
 │   ├── 04-autoimmunity-mechanisms.md  # Molecular mimicry, bystander activation
 │   ├── 05-ms-pathogenesis-links.md    # Connection to MS pathology
-│   ├── 06-clinical-evidence.md        # Case studies & clinical data
-│   └── 07-therapeutic-implications.md # Drug targets & interventions
-├── data/
-│   ├── literature-database.csv        # Curated research articles
-│   └── genomic-data/                  # Viral genomes & protein alignments
-├── analysis/
-│   ├── molecular-mimicry-analysis.py  # Sequence homology studies
-│   └── coinfection-models.py          # Computational models
-├── figures/
-│   └── mechanisms-diagrams.md         # Visualizations & schematics
+│   └── 06-integrated-viral-host-systems-model.md # Multiscale synthesis & data architecture
+├── data/                              # Planned literature/genomics assets
+│   ├── literature-database.csv        # Planned curated research articles
+│   └── genomic-data/                  # Planned viral genomes & protein alignments
+├── analysis/                          # Planned analysis pipeline
+│   ├── molecular-mimicry-analysis.py  # Planned sequence homology studies
+│   └── coinfection-models.py          # Planned computational models
+├── figures/                           # Planned visual synthesis
+│   └── mechanisms-diagrams.md         # Planned visualizations & schematics
 └── REFERENCES.md                       # Bibliography & citations
 ```
 
@@ -66,17 +65,11 @@ This repository contains a comprehensive deep review examining the potential rol
 - T cell infiltration
 - Oligodendrocyte dysfunction
 
-### 6. Clinical Evidence
-- Temporal relationships between infection and MS onset
-- Viral reactivation during relapses
-- CSF viral detection studies
-- Neuroimmunological markers
-
-### 7. Therapeutic Implications
-- Antiviral drug candidates
-- Immunomodulatory approaches
-- Vaccine strategies
-- Future research directions
+### 6. Integrated Viral-Host Systems Model
+- Frustrated viral-host landscape for coinfection dynamics
+- Host genetics, viral genomics, and epitope-aware integration
+- Compartment-resolved pathogenesis across blood, CSF, BBB, and CNS cell types
+- Public dataset integration, clinical evidence synthesis, and state-based therapeutic stratification
 
 ## Contributing
 
