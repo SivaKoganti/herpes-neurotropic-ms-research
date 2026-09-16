@@ -16,6 +16,8 @@ This repository contains a comprehensive deep review examining the potential rol
 
 ```
 ├── README.md                           # This file
+├── manuscript/
+│   └── manuscript.md                   # Draft IMRaD-style manuscript for preprint assembly
 ├── app/
 │   ├── README.md                       # Interactive web app setup
 │   ├── frontend/                       # React dashboard
@@ -27,9 +29,8 @@ This repository contains a comprehensive deep review examining the potential rol
 │   ├── 04-autoimmunity-mechanisms.md  # Molecular mimicry, bystander activation
 │   └── 05-ms-pathogenesis-links.md    # Connection to MS pathology
 ├── data/
-│   ├── literature-database.csv        # Curated research articles
 │   ├── clinvar-ms-variants.csv        # Filtered ClinVar MS + immune variants
-│   └── genomic-data/                  # Viral genomes & protein alignments
+│   └── (additional literature/data inputs may be added as curated assets)
 ├── analysis/
 │   ├── spin_glass_coinfection_model.py # Spin glass CNS coinfection dynamics simulation
 │   └── clinvar_viral_susceptibility_analysis.py # ClinVar host-genetic viral risk analysis
@@ -56,6 +57,16 @@ cd app/frontend && npm ci && npm run build && cd ../..
 ```
 
 The analysis outputs in `figures/` are deterministic with fixed random seeds and should regenerate without diffs.
+
+## Manuscript and preprint drafting workflow
+
+The current integrated repository state supports **manuscript drafting and preprint preparation**, but it should **not** be represented as final journal-submission-ready without completing citation verification, author metadata, journal formatting, and domain review.
+
+1. Regenerate the deterministic analysis artifacts with the commands above.
+2. Draft from `/home/runner/work/herpes-neurotropic-ms-research/herpes-neurotropic-ms-research/manuscript/manuscript.md`.
+3. Use the figure/table inventory and claim traceability sections in the manuscript to connect text to repository artifacts and `REFERENCES.md`.
+4. Replace every placeholder marked as requiring author or journal decisions before external submission.
+5. Keep the application framed as research/decision-support software; it is not a diagnostic device or clinically validated model.
 
 ## Interactive MS Risk Web App
 

@@ -43,6 +43,13 @@ python analysis/clinvar_viral_susceptibility_analysis.py
 cd app/frontend && npm ci && npm run build && cd ../..
 ```
 
+## Manuscript and preprint use
+
+- Use `/home/runner/work/herpes-neurotropic-ms-research/herpes-neurotropic-ms-research/manuscript/manuscript.md` as the publication draft anchor for IMRaD text, figure legends, inventory tables, and claim traceability.
+- Regenerate repository artifacts before updating manuscript text so the inventory continues to match the tracked outputs in `figures/`.
+- Treat dashboard exports and API reports as exploratory research artifacts only. They may be used to illustrate the repository workflow, but they must not be described as clinical diagnosis, clinical validation, or patient-ready reporting.
+- Author list, affiliations, target venue, and any claim marked as requiring verification remain placeholders until completed by the manuscript authors.
+
 ## Docker Compose
 
 ```bash
