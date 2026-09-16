@@ -30,7 +30,7 @@ class ClinVarAnalysisTests(unittest.TestCase):
         p_value_b = clinvar.permutation_association_test(df, n_perm=200, rng_seed=7)
         self.assertGreaterEqual(p_value_a, 0.0)
         self.assertLessEqual(p_value_a, 1.0)
-        self.assertAlmostEqual(p_value_a, 0.04477611940298507)
+        self.assertAlmostEqual(p_value_a, 0.03482587064676617)
         self.assertAlmostEqual(p_value_a, p_value_b)
 
     def test_permutation_association_supports_negative_effect(self):
@@ -47,7 +47,7 @@ class ClinVarAnalysisTests(unittest.TestCase):
         )
         frame = pd.DataFrame(negative_effect)
         p_value = clinvar.permutation_association_test(frame, n_perm=200, rng_seed=7)
-        self.assertAlmostEqual(p_value, 0.11442786069651742)
+        self.assertAlmostEqual(p_value, 0.0845771144278607)
 
     def test_risk_scores_report_scoring_mode(self):
         dataset = REPO_ROOT / "data" / "clinvar-ms-variants.csv"
@@ -60,6 +60,7 @@ class ClinVarAnalysisTests(unittest.TestCase):
         dataset = REPO_ROOT / "data" / "clinvar-ms-variants.csv"
         df = clinvar.annotate_pathways(clinvar.load_clinvar_subset(dataset))
         expected = clinvar.permutation_association_test(df, n_perm=500, rng_seed=7)
+        self.assertAlmostEqual(expected, 0.033932135728542916)
 
         with tempfile.TemporaryDirectory() as tmpdir:
             output_dir = Path(tmpdir)

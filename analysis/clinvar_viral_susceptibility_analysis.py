@@ -147,7 +147,7 @@ def permutation_association_test(df: pd.DataFrame, n_perm: int = 500, rng_seed: 
     )
     count = 0
     for _ in range(n_perm):
-        perm = df["reactivation"].sample(frac=1.0, replace=False, random_state=int(rng.integers(0, 1_000_000))).to_numpy()
+        perm = rng.permutation(df["reactivation"].to_numpy())
         perm_diff = float(np.mean(perm[pathogenic_mask]) - np.mean(perm[non_pathogenic_mask]))
         if abs(perm_diff) >= abs(observed):
             count += 1
