@@ -16,6 +16,7 @@ This repository contains a comprehensive deep review examining the potential rol
 
 ```
 ├── README.md                           # This file
+├── MANUSCRIPT.md                       # Draft review + hypothesis manuscript
 ├── docs/
 │   ├── 01-viral-epidemiology.md       # Epidemiological evidence
 │   ├── 02-viral-pathogenesis.md       # Mechanisms of neurotropism
@@ -29,8 +30,8 @@ This repository contains a comprehensive deep review examining the potential rol
 ├── analysis/                          # Planned analysis pipeline
 │   ├── molecular-mimicry-analysis.py  # Planned sequence homology studies
 │   └── coinfection-models.py          # Planned computational models
-├── figures/                           # Planned visual synthesis
-│   └── mechanisms-diagrams.md         # Planned visualizations & schematics
+├── figures/
+│   └── manuscript-figures-and-legends.md # Manuscript figure package
 └── REFERENCES.md                       # Bibliography & citations
 ```
 
@@ -70,6 +71,12 @@ This repository contains a comprehensive deep review examining the potential rol
 - Host genetics, viral genomics, and epitope-aware integration
 - Compartment-resolved pathogenesis across blood, CSF, BBB, and CNS cell types
 - Public dataset integration, clinical evidence synthesis, and state-based therapeutic stratification
+
+## Manuscript Assets
+
+- `MANUSCRIPT.md` contains a manuscript-style review and hypothesis draft built from the chapter set
+- `REFERENCES.md` contains the numbered citation base grouped by topic
+- `figures/manuscript-figures-and-legends.md` contains the proposed figure list and interpretive legends
 
 ## Contributing
 
