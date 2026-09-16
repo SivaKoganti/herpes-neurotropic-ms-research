@@ -31,8 +31,8 @@ This repository contains a comprehensive deep review examining the potential rol
 ├── analysis/
 │   ├── molecular-mimicry-analysis.py  # Sequence homology studies
 │   ├── coinfection-models.py          # Computational models
-│   ├── spin_glass_coinfection_model.py
-│   └── clinvar_viral_susceptibility_analysis.py
+│   ├── spin_glass_coinfection_model.py # Spin glass CNS coinfection dynamics simulation
+│   └── clinvar_viral_susceptibility_analysis.py # ClinVar host-genetic viral risk analysis
 ├── figures/
 │   ├── mechanisms-diagrams.md         # Visualizations & schematics
 │   ├── spin_glass_phase_diagram.csv

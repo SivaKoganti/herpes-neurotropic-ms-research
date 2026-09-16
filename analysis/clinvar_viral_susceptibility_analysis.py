@@ -53,23 +53,26 @@ def annotate_pathways(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def pathway_enrichment(df: pd.DataFrame) -> pd.DataFrame:
-    """Fisher exact enrichment of pathogenic variants among viral persistence cases."""
+    """Fisher exact enrichment of viral persistence by pathway membership."""
 
     rows = []
     for pathway in sorted(df["pathway"].unique()):
         in_pathway = df["pathway"] == pathway
-        a = int(((df["viral_persistence"] == 1) & df["is_pathogenic"] & in_pathway).sum())
-        b = int(((df["viral_persistence"] == 1) & (~df["is_pathogenic"]) & in_pathway).sum())
-        c = int(((df["viral_persistence"] == 1) & df["is_pathogenic"] & (~in_pathway)).sum())
-        d = int(((df["viral_persistence"] == 1) & (~df["is_pathogenic"]) & (~in_pathway)).sum())
+        persistent = df["viral_persistence"] == 1
+        a = int((in_pathway & persistent).sum())
+        b = int((in_pathway & (~persistent)).sum())
+        c = int(((~in_pathway) & persistent).sum())
+        d = int(((~in_pathway) & (~persistent)).sum())
         odds_ratio, p_value = fisher_exact([[a, b], [c, d]], alternative="greater")
         rows.append(
             {
                 "pathway": pathway,
-                "persistent_pathogenic": a,
-                "persistent_non_pathogenic": b,
-                "outside_pathogenic": c,
-                "outside_non_pathogenic": d,
+                "persistent_in_pathway": a,
+                "non_persistent_in_pathway": b,
+                "persistent_outside_pathway": c,
+                "non_persistent_outside_pathway": d,
+                "pathway_pathogenic_fraction": float(df.loc[in_pathway, "is_pathogenic"].mean()),
+                "pathway_reactivation_fraction": float(df.loc[in_pathway, "reactivation"].mean()),
                 "odds_ratio": float(odds_ratio),
                 "p_value": float(p_value),
             }

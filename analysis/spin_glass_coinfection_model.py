@@ -116,9 +116,8 @@ def metropolis_simulation(
         site = int(rng.integers(0, n_sites))
         virus = int(rng.integers(0, n_viruses))
         current_state = spins[site, virus]
-        proposal = int(rng.choice(SPIN_STATES))
-        if proposal == current_state:
-            continue
+        proposal_choices = SPIN_STATES[SPIN_STATES != current_state]
+        proposal = int(rng.choice(proposal_choices))
 
         current_energy = hamiltonian(spins, couplings, fields, config.immune_pressure)
         spins[site, virus] = proposal
